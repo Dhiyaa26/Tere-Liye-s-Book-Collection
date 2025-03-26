@@ -1,0 +1,246 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Book Collection</title>
+        <style>
+            body {
+                font-family: 'Arial', sans-serif;
+                background-color: #d4eac1;
+                background-image: url('https://www.example.com/your-background-image.jpg'); 
+                background-size: cover;
+                margin: 0;
+                padding: 0;
+            }
+            .header {
+                background-color: rgba(76, 175, 80, 0.8);
+                color: white;
+                padding: 20px;
+                text-align: center;
+                border-bottom: 5px solid #388E3C;
+            }
+            .container {
+                max-width: 1200px;
+                margin: 40px auto;
+                background-color: white;
+                padding: 30px;
+                border-radius: 10px;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            }
+            nav {
+    margin-left: auto; 
+}
+
+nav ul {
+    list-style-type: none; 
+    padding: 0; 
+}
+
+nav ul li {
+    display: inline; 
+}
+
+nav a {
+    text-decoration: none; 
+    color: #ffffff; 
+    font-weight: bold; 
+    padding: 12px 25px; 
+    background-color: #388e3c; 
+    border-radius: 5px;
+    margin-left: 15px; 
+    transition: background-color 0.3s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+}
+
+nav a:hover {
+    background-color: #1b5e20; 
+}
+            h2 {       
+                color: #365E32;
+                text-align: center;
+            }
+            .book-card {
+                background-color: #d4eac1;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                margin: 15px;
+                padding: 15px;
+                display: inline-block;
+                width: calc(25% - 30px);
+                vertical-align: top;
+                transition: transform 0.2s;
+            }
+            .book-card:hover {
+                transform: scale(1.05);
+            }
+            .book-image {
+                border: 1px solid #ccc; 
+                border-radius: 8px; 
+                padding: 16px; 
+                margin: 16px; 
+                display: inline-block; 
+                width: 200px; 
+                text-align: center; 
+                background-color: #f9f9f9; 
+                box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.1); 
+                transition: transform 0.2s; 
+            }
+            .book-image:hover {
+                transform: scale(1.05); 
+            }
+            .book-title {
+                font-size: 18px;
+                font-weight: bold;
+                margin: 10px 0;
+            }
+            .book-author, .book-year {
+                color: #666;
+                margin: 5px 0;
+            }
+            .book-synopsis {
+                max-height: none; 
+                overflow: visible; 
+                color: #444;
+                margin: 10px 0;
+                font-size: 14px;
+                height: 100px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-line-clamp: 2; 
+                -webkit-box-orient: vertical;
+            }
+            
+                .btn {
+         display: inline-block;
+        padding: 10px 15px;
+        font-size: 16px;
+        color: white; 
+        background-color: #4CAF50;
+        border: none; 
+        border-radius: 5px; 
+        text-align: center; 
+        text-decoration: none; 
+        cursor: pointer; 
+        transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+        background-color: #45a049; /* Darker shade on hover */
+    }
+            
+            .footer {
+                background: linear-gradient(135deg, #45a049, #4CAF50); 
+                color: #fff;
+                position: relative;
+                text-align: center;
+                box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3); 
+               
+            }
+            .footer-container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 10px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            .footer-logo h2 {
+                font-size: 28px; 
+                font-weight: bold;
+                color: #fff;
+                text-transform: uppercase;
+                margin-bottom: 5px;
+            }
+            .footer-logo h2 span {
+                color: #f39c12;
+            }
+            .footer-content p {
+                font-size: 14px; 
+                font-style: italic;
+                max-width: 500px;
+                margin: 15px auto;
+                color: #f0f0f0;
+                animation: fadeIn 2s ease-in-out;
+            }
+            .footer-bottom {
+                font-size: 12px;
+                margin-top: 15px;
+            }
+            .footer-bottom p {
+                margin: 0;
+            }
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            footer:before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(255, 255, 255, 0.1);
+                transform: skewY(-10deg);
+                pointer-events: none;
+            }
+        </style>
+    </h:head>
+    <h:body>
+        <f:metadata>
+            <f:viewParam name="genre" value="#{booksBean.selectedGenre}" />
+            <f:event type="preRenderView" listener="#{booksBean.init}" />
+        </f:metadata>
+        <div class="header">
+            <h1>Welcome to My Collection</h1>
+            <nav>
+            <ul>
+                <li><a href="home.xhtml">Choose Another Genre</a></li>
+            </ul>
+            </nav>
+        </div>
+
+        <div class="container">
+            <h2>Available Books</h2>
+            <div class="book-list">
+               <ui:repeat value="#{booksBean.bookList}" var="book">
+                    <div class="book-card">
+                        <h:graphicImage value="#{book.image}" class="book-image" />
+                        <div class="book-title"><h:outputText value="#{book.title}" /></div>
+                        <div class="book-author">Author: <h:outputText value="#{book.author}" /></div>
+                        <div class="book-year">Year of Publication: <h:outputText value="#{book.yearOfPublication}" /></div>
+                        <div class="book-genre">Genre: <h:outputText value="#{book.genre.nameGenre}" /></div>
+                        <div class="book-synopsis"><h:outputText value="#{book.synopsis}" /></div>
+                        <h:link styleClass="btn" value="Add Review" outcome="review.xhtml">
+                            <f:param name="book_id" value="#{book.idBooks}" />
+                        </h:link>
+                    </div>
+                </ui:repeat>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="footer-container">
+                <div class="footer-logo">
+                    <h2>Thank You For Coming<span>.</span></h2>
+                </div>
+                <div class="footer-content">
+                    <p>"Crafting extraordinary experiences one click at a time."</p>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2024 Tere Liye's Book Collection | All Rights Reserved</p>
+                </div>
+            </div>
+        </div>
+    </h:body>
+</html>

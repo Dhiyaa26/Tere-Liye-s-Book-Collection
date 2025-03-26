@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<h:head>
+    <title>Admin Panel - Add Book</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f9f9;
+            background-image: url('https://www.example.com/your-background-image.jpg');
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+        }
+header {
+    background-color: #4caf50; 
+    padding: 40px; 
+    border-bottom: 4px solid #388e3c; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+}
+
+header h1 {
+    color: #ffffff; 
+    font-family: 'Arial', sans-serif; 
+    margin: 0; 
+    margin-bottom:  10px;
+}
+
+header h2 {
+    color: #e0e0e0; 
+    font-family: 'Arial', sans-serif; 
+    margin: 5px 0; 
+}
+
+nav {
+    margin-left: auto; 
+}
+
+nav ul {
+    list-style-type: none; 
+    padding: 0; 
+}
+
+nav ul li {
+    display: inline; 
+}
+
+nav a {
+    text-decoration: none; 
+    color: #ffffff; 
+    font-weight: bold; 
+    padding: 12px 25px; 
+    background-color: #388e3c; 
+    border-radius: 5px;
+    margin-left: 15px; 
+    transition: background-color 0.3s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+}
+
+nav a:hover {
+    background-color: #1b5e20; /* Darker green on hover */
+}
+
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+        h3 {
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 10px;
+            color: #333;
+        }
+        label {
+            font-weight: bold;
+            margin-top: 10px;
+            display: block;
+        }
+        input[type="text"], textarea {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+        .btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 5px;
+        }
+        .btn:hover {
+            background-color: #45a049;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #ddd;
+        }
+        .search-container {
+            margin-bottom: 20px;
+        }
+        .search-container input[type="text"] {
+            width: calc(100% - 100px);
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        .search-container .btn {
+            padding: 10px 20px;
+            margin-left: 10px;
+        }
+    </style>
+</h:head>
+<h:body>
+    <header>
+    <div>
+        <h1>Admin Panel</h1>
+        <h2>Manage Your Book Collection with Love for Literature</h2>
+    </div>
+        <nav>
+            <ul>
+                <li><a href="index.xhtml">Logout</a></li>
+            </ul>
+        </nav>
+   </header>
+
+    <div class="container">
+        <h3>Add New Book</h3>
+        <h:form enctype="multipart/form-data">
+            <label for="title">Title</label>
+            <h:inputText id="title" value="#{adminBean.title}" required="true" />
+
+            <label for="author">Author</label>
+            <h:inputText id="author" value="#{adminBean.author}" required="true" />
+
+            <label for="year">Year of Publication</label>
+            <h:inputText id="year" value="#{adminBean.yearOfPublication}" required="true">
+            </h:inputText>
+
+            <label for="genre">Genre</label>
+            <h:selectOneMenu id="genre" value="#{adminBean.genre}">
+                <f:selectItems var="genre" value="#{adminBean.genreList}" itemValue="#{genre.idGenre}" itemLabel="#{genre.nameGenre}" />
+            </h:selectOneMenu> 
+
+            <label for="synopsis">Synopsis</label>
+            <h:inputTextarea id="synopsis" value="#{adminBean.synopsis}" required="true" />
+
+            <label for="image">Cover Image</label>
+            <h:inputFile id="image" value="#{adminBean.coverImagePart}" required="true" />
+
+            <h:commandButton value="Add Book" action="#{adminBean.addBook}" class="btn" />
+        </h:form>
+
+        <h3>Current Book Collection</h3>
+
+       <div class="search-container">
+            <h:form>
+                <h:inputText id="searchQuery" value="#{adminBean.searchKeyword}" />
+                <h:commandButton value="Search" action="#{adminBean.filterBooks()}" class="btn" />
+            </h:form>
+        </div>
+
+             <h:dataTable value="#{adminBean.bookList}" var="book">
+          <h:column>
+        <f:facet name="header">ID Books</f:facet>
+        <h:outputText value="#{book.idBooks}" />
+             </h:column>
+         <h:column>
+        <f:facet name="header">Title</f:facet>
+        <h:outputText value="#{book.title}" />
+             </h:column>
+          <h:column>
+                 <f:facet name="header">Author</f:facet>
+         <h:outputText value="#{book.author}" />
+          </h:column>
+          <h:column>
+        <f:facet name="header">Year of Publication</f:facet>
+        <h:outputText value="#{book.yearOfPublication}" />
+           </h:column>
+        <h:column>
+        <f:facet name="header">Genre</f:facet>
+        <h:outputText value="#{book.genre.nameGenre}" />
+          </h:column>
+  
+    <h:column>
+        <f:facet name="header">Action</f:facet>
+        <h:commandButton value="Delete" action="#{adminBean.deleteBook(book.idBooks)}" class="btn">
+            <f:ajax render="@form" />
+        </h:commandButton>
+    </h:column>
+</h:dataTable>
+        
+        <div class="footer">
+            <p>“Books are a uniquely portable magic.” – Stephen King</p>
+        </div>
+    </div>
+      
+</h:body>
+</html>
